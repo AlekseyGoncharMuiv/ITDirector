@@ -1,0 +1,107 @@
+CREATE TABLE `Tiket` (
+	`IDTiket` int NOT NULL AUTO_INCREMENT,
+	`IDViewTiket` TEXT NOT NULL AUTO_INCREMENT,
+	`Date` DATETIME NOT NULL AUTO_INCREMENT,
+	`Status` varchar(20) NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDUser` int NOT NULL UNIQUE,
+	`Number` int NOT NULL UNIQUE,
+	`IDSupervisor` varchar(50) UNIQUE,
+	`IDPosition` varchar(50) UNIQUE,
+	`IDDepatment` varchar(50) UNIQUE,
+	`IDIncident` int(50) NOT NULL UNIQUE,
+	`IDSubdevision` varchar(50) UNIQUE,
+	PRIMARY KEY (`IDTiket`,`IDViewTiket`,`Date`,`Status`,`Number`,`IDIncident`)
+);
+CREATE TABLE `User` (
+	`Fullname` varchar(50) NOT NULL AUTO_INCREMENT,
+	`IDUser` int NOT NULL UNIQUE,
+	`IDSubdevision` varchar(50) NOT NULL UNIQUE,
+	`IDDepatment` varchar(50) NOT NULL UNIQUE,
+	`IDSupervisor` varchar(50) NOT NULL UNIQUE,
+	`IDPosition` varchar(50) NOT NULL UNIQUE,
+	PRIMARY KEY (`Fullname`,`IDUser`,`IDSubdevision`,`IDDepatment`,`IDSupervisor`,`IDPosition`)
+);
+CREATE TABLE `Requisites` (
+	`IDDepatment` varchar(50) UNIQUE,
+	`IDPosition` varchar(50) UNIQUE,
+	`IDSupervisor` varchar(50) UNIQUE,
+	`Fullname` varchar(50) NOT NULL AUTO_INCREMENT,
+	`IDTiket` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDUser` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDViewTiket` varchar(50) NOT NULL AUTO_INCREMENT UNIQUE,
+	`Status` varchar(20) NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDSubdevision` varchar(50) NOT NULL AUTO_INCREMENT UNIQUE,
+	`Date` DATETIME(50) NOT NULL AUTO_INCREMENT UNIQUE
+);
+CREATE TABLE `Subject` (
+	`IDSubject` int AUTO_INCREMENT UNIQUE,
+	`NameSubject` varchar(50) AUTO_INCREMENT,
+	`IDViewTiket` linestring(50) UNIQUE,
+	`IDTiket` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`Status` linestring(50) NOT NULL AUTO_INCREMENT,
+	`Number` int(50) NOT NULL AUTO_INCREMENT
+);
+CREATE TABLE `Report` (
+	`IDTiket` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDUser` int NOT NULL UNIQUE,
+	`IDSubject` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDViewTiket` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDSupervisor` varchar(50) UNIQUE,
+	`Fullname` varchar(50) NOT NULL AUTO_INCREMENT,
+	`Namereport` varchar(50),
+	`Status` linestring(50) AUTO_INCREMENT
+);
+CREATE TABLE `Incident` (
+	`Text` TEXT,
+	`IDIncident` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`Nameincident` varchar(50) NOT NULL AUTO_INCREMENT,
+	`File` FLOAT NOT NULL AUTO_INCREMENT
+);
+CREATE TABLE `Decision` (
+	`Text` TEXT,
+	`Namedecision` varchar(50) NOT NULL AUTO_INCREMENT,
+	`IDDecision` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDTiket` int NOT NULL AUTO_INCREMENT UNIQUE,
+	`IDUser` int NOT NULL AUTO_INCREMENT UNIQUE
+);
+CREATE TABLE `Picture` (
+	`File` FLOAT,
+	`Description` TEXT AUTO_INCREMENT,
+	`Nameincident` linestring NOT NULL AUTO_INCREMENT,
+	`Namepicture` varchar(50) NOT NULL AUTO_INCREMENT
+);
+CREATE TABLE `Comment` (
+	`Text` TEXT,
+	`Namecomment` varchar(250) NOT NULL AUTO_INCREMENT,
+	`IDComment` int NOT NULL AUTO_INCREMENT
+);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk0` FOREIGN KEY (`Date`) REFERENCES ``(``);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk1` FOREIGN KEY (`Status`) REFERENCES `Subject`(`Status`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk2` FOREIGN KEY (`Number`) REFERENCES `Subject`(`Number`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk3` FOREIGN KEY (`IDSupervisor`) REFERENCES `User`(`IDSupervisor`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk4` FOREIGN KEY (`IDPosition`) REFERENCES `User`(`IDPosition`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk5` FOREIGN KEY (`IDDepatment`) REFERENCES `User`(`IDDepatment`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk6` FOREIGN KEY (`IDIncident`) REFERENCES `Incident`(`IDIncident`);
+ALTER TABLE `Tiket` ADD CONSTRAINT `Tiket_fk7` FOREIGN KEY (`IDSubdevision`) REFERENCES `Requisites`(`IDSubdevision`);
+ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`IDSubdevision`) REFERENCES `Tiket`(`IDSubdevision`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk0` FOREIGN KEY (`IDDepatment`) REFERENCES `User`(`IDDepatment`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk1` FOREIGN KEY (`IDPosition`) REFERENCES `User`(`IDPosition`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk2` FOREIGN KEY (`IDSupervisor`) REFERENCES `User`(`IDSupervisor`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk3` FOREIGN KEY (`Fullname`) REFERENCES `User`(`Fullname`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk4` FOREIGN KEY (`IDTiket`) REFERENCES `Tiket`(`IDTiket`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk5` FOREIGN KEY (`IDUser`) REFERENCES `Tiket`(`IDUser`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk6` FOREIGN KEY (`IDViewTiket`) REFERENCES `Tiket`(`IDViewTiket`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk7` FOREIGN KEY (`IDSubdevision`) REFERENCES `User`(`IDSubdevision`);
+ALTER TABLE `Requisites` ADD CONSTRAINT `Requisites_fk8` FOREIGN KEY (`Date`) REFERENCES `Tiket`(`Date`);
+ALTER TABLE `Subject` ADD CONSTRAINT `Subject_fk0` FOREIGN KEY (`IDViewTiket`) REFERENCES `Requisites`(`IDViewTiket`);
+ALTER TABLE `Subject` ADD CONSTRAINT `Subject_fk1` FOREIGN KEY (`IDTiket`) REFERENCES `Requisites`(`IDTiket`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk0` FOREIGN KEY (`IDTiket`) REFERENCES `Tiket`(`IDTiket`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk1` FOREIGN KEY (`IDUser`) REFERENCES `Tiket`(`IDUser`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk2` FOREIGN KEY (`IDSubject`) REFERENCES `Subject`(`IDSubject`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk3` FOREIGN KEY (`IDViewTiket`) REFERENCES `Subject`(`IDViewTiket`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk4` FOREIGN KEY (`IDSupervisor`) REFERENCES `User`(`IDSupervisor`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk5` FOREIGN KEY (`Fullname`) REFERENCES `User`(`Fullname`);
+ALTER TABLE `Report` ADD CONSTRAINT `Report_fk6` FOREIGN KEY (`Status`) REFERENCES `Tiket`(`Status`);
+ALTER TABLE `Incident` ADD CONSTRAINT `Incident_fk0` FOREIGN KEY (`Text`) REFERENCES `Decision`(`Text`);
+ALTER TABLE `Decision` ADD CONSTRAINT `Decision_fk0` FOREIGN KEY (`Text`) REFERENCES `Comment`(`Text`);
+ALTER TABLE `Comment` ADD CONSTRAINT `Comment_fk0` FOREIGN KEY (`Text`) REFERENCES `Picture`(`File`);
