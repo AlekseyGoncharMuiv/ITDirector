@@ -1,0 +1,78 @@
+Tiket as os
+-----
+IDTiket int IDENTITY FK -< Report.IDtiket FK - Incident.Text
+IDViewTiket str IDENTITY FK -< Subject.IDViewTiket FK - Incident.IDincident
+Date dateTime default=GETUTCDATE() FK - Requisites.Date
+Status PK str FK - Report.Status
+IDUser int FK -< User.IDUser
+Number int FK - Subject.Number
+IDSupervisor varchar(50) FK - Requisites.IDSupervisor
+IDPosition varchar(50)   FK - Requisites.IDPosition
+IDDepatment varchar(50)  FK - Requisites.IDDepatment
+
+User
+-----
+Fullname varchar(50) FK - Requisites.Fullname
+IDUser PK int FK - Requisites.IDUser
+IDSubdevision varchar(50) FK - Requisites.IDDepatment
+IDDepatment varchar(50) FK - Requisites.IDDepatment
+IDSupervisor varchar(50) FK - Requisites.IDSupervisor
+IDPosition varchar(50) FK - Requisites.IDPosition
+
+Requisites as ol
+-----
+IDDepatment varchar(50)
+IDPosition varchar(50)
+IDSupervisor varchar(50)
+Fullname varchar(50)
+IDTiket PK int IDENTITY
+IDUser PK int FK - report.IDUser
+Date dateTime default=GETUTCDATE()
+
+Subject
+-----
+IDSubject int FK - Report.IDSubject
+Namesubject varchar(50)
+IDViewTiket PK str IDENTITY
+IDTiket  int IDENTITY FK -< Requisites.IDTiket
+Status PK str FK
+Number int
+
+Report
+-----
+IDTiket PK int IDENTITY
+IDUser PK int
+IDSubject varchar(50)
+IDViewTiket PK str IDENTITY
+IDSupervisor varchar(50)
+IDFullname varchar(50)
+Namereport varchar(100)
+Status PK int FK
+
+Incident
+-----
+Text str FK - Decision.Text
+IDincident PK int
+Nameincident varchar(50)
+File PK Jpeg
+
+Decision
+-----
+Text str FK - Comment.Text
+Namedecision varchar(50)
+IDdecision int
+IDTiket PK int IDENTITY
+IDUser PK int
+
+Comment
+-----
+Text str FK - Picture.Description
+Namecomment varchar(50)
+IDcomment int
+
+Picture
+-----
+File PK Jpeg
+Description str
+IDpicure PK int
+Namepicture varchar(50)
