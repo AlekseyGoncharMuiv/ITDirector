@@ -1,0 +1,98 @@
+CREATE TABLE `` (
+  `ID Full name (FK)` <type>,
+  `ID User (FK)` <type>,
+  `ID Subdevision` <type>,
+  `ID Depatment (FK)` <type>,
+  `ID Supervisor (FK)` <type>,
+  `ID Position (FK)` <type>,
+  FOREIGN KEY (`ID Full name (FK)`) REFERENCES ``(`ID Tiket (FK)`),
+  FOREIGN KEY (`ID Supervisor (FK)`) REFERENCES ``(`ID Supervisor (FK)`),
+  FOREIGN KEY (`ID Depatment (FK)`) REFERENCES ``(`ID Depatment (FK)`)
+);
+
+CREATE TABLE `` (
+  `ID Depatment (FK)` <type>,
+  `ID Position (FK)` <type>,
+  `ID Supervisor (FK)` <type>,
+  `ID Full name (FK)` <type>,
+  `ID Tiket (FK)` <type>,
+  `ID User (FK)` <type>,
+  `Date` <type>,
+  FOREIGN KEY (`ID Depatment (FK)`) REFERENCES ``(`ID Full name (FK)`),
+  FOREIGN KEY (`ID Supervisor (FK)`) REFERENCES ``(`ID Subdevision`),
+  FOREIGN KEY (`ID Tiket (FK)`) REFERENCES ``(`Number`),
+  FOREIGN KEY (`Date`) REFERENCES ``(`Date`),
+  FOREIGN KEY (`ID Full name (FK)`) REFERENCES ``(`ID User (FK)`),
+  FOREIGN KEY (`ID Position (FK)`) REFERENCES ``(`ID User (FK)`)
+);
+
+CREATE TABLE `` (
+  `ID Tiket (FK)` <type>,
+  `ID ViewTiket (FK)` <type>,
+  `Date` <type>,
+  `Status` <type>,
+  `Number` <type>,
+  `ID Supervisor (FK)` <type>,
+  `ID Position (FK)` <type>,
+  `ID Depatment (FK)` <type>,
+  FOREIGN KEY (`ID Position (FK)`) REFERENCES ``(`ID User (FK)`)
+);
+
+CREATE TABLE `` (
+  `Text` <type>,
+  `ID incident` <type>,
+  `Name` <type>,
+  `File` <type>,
+  FOREIGN KEY (`Text`) REFERENCES ``(`ID Tiket (FK)`)
+);
+
+CREATE TABLE `` (
+  `Text` <type>,
+  `Name` <type>,
+  `ID decision` <type>,
+  `ID tiket` <type>,
+  `ID user` <type>,
+  FOREIGN KEY (`Text`) REFERENCES ``(`Text`)
+);
+
+CREATE TABLE `D` (
+  `ID Subject (FK)` <type>,
+  `Name Subject` <type>,
+  `ID ViewTiket (FK)` <type>,
+  `ID Tiket (FK)` <type>,
+  `Status` <type>,
+  `Number` <type>,
+  FOREIGN KEY (`ID Subject (FK)`) REFERENCES ``(`ID Tiket (FK)`),
+  FOREIGN KEY (`Number`) REFERENCES ``(`Date`)
+);
+
+CREATE TABLE `` (
+  `ID Tiket (FK)` <type>,
+  `ID User (FK)` <type>,
+  `ID Subject (FK)` <type>,
+  `ID ViewTiket (FK)` <type>,
+  `ID Supervisor (FK)` <type>,
+  `ID Full name (FK)` <type>,
+  `Name report` <type>,
+  `Status` <type>,
+  FOREIGN KEY (`ID Tiket (FK)`) REFERENCES `D`(`ID ViewTiket (FK)`),
+  FOREIGN KEY (`Status`) REFERENCES `D`(`Status`),
+  FOREIGN KEY (`Status`) REFERENCES ``(`Status`),
+  FOREIGN KEY (`ID ViewTiket (FK)`) REFERENCES `D`(`ID Tiket (FK)`),
+  FOREIGN KEY (`ID Subject (FK)`) REFERENCES `D`(`ID Subject (FK)`)
+);
+
+CREATE TABLE `Доставка` (
+  `Text` <type>,
+  `Name` <type>,
+  `ID comment` <type>,
+  FOREIGN KEY (`Text`) REFERENCES ``(`Text`)
+);
+
+CREATE TABLE `Доставка` (
+  `File` <type>,
+  `Description` <type>,
+  `ID picture` <type>,
+  `Name` <type>,
+  FOREIGN KEY (`File`) REFERENCES `Доставка`(`Text`)
+);
